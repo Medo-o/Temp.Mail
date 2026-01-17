@@ -3,247 +3,224 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>نظام الإيميل المؤقت الإحترافي || أبو عاصي بيه</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&family=Orbitron:wght@700&display=swap" rel="stylesheet">
+    <title>إيميلات أبو عاصي || النسخة المصرية V16</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;900&family=Changa:wght@600&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-color: #050510;
-            --card-bg: #0f0f1a;
-            --primary: #00f3ff; /* أزرق نيون */
-            --secondary: #bc13fe; /* بنفسجي نيون */
-            --text: #ffffff;
+            --bg: #050505;
+            --surface: #111;
+            --primary: #00f0ff; /* لون النيون الأزرق */
+            --primary-dim: rgba(0, 240, 255, 0.1);
+            --text: #fff;
+            --gray: #888;
+            --border: #222;
         }
+
+        * { box-sizing: border-box; }
 
         body {
-            font-family: 'Cairo', sans-serif;
-            background-color: var(--bg-color);
-            background-image: 
-                linear-gradient(rgba(0, 243, 255, 0.03) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(0, 243, 255, 0.03) 1px, transparent 1px);
-            background-size: 30px 30px;
+            background-color: var(--bg);
             color: var(--text);
-            margin: 0;
-            padding-bottom: 50px;
-            min-height: 100vh;
-            overflow-y: auto;
-        }
-
-        .cyber-container {
-            width: 90%;
-            max-width: 800px;
-            margin: 60px auto;
-            background: var(--card-bg);
-            border: 1px solid rgba(0, 243, 255, 0.2);
-            padding: 40px;
-            position: relative;
-            box-shadow: 0 0 30px rgba(188, 19, 254, 0.1);
-            clip-path: polygon(
-                0 0, 
-                100% 0, 
-                100% calc(100% - 30px), 
-                calc(100% - 30px) 100%, 
-                0 100%
-            ); 
-        }
-
-        /* تأثير الجليتش للعنوان العربي */
-        .glitch-title {
             font-family: 'Cairo', sans-serif;
-            font-size: 3em;
-            font-weight: 900;
-            text-align: center;
-            position: relative;
-            color: white;
-            text-shadow: 2px 2px var(--secondary);
-            margin-bottom: 10px;
-        }
-        .glitch-title::before, .glitch-title::after {
-            content: attr(data-text);
-            position: absolute;
-            top: 0; left: 0; right: 0;
-            background: var(--bg-color);
-        }
-        .glitch-title::before {
-            left: 2px; text-shadow: -1px 0 var(--primary);
-            animation: glitch-anim-1 2s infinite linear alternate-reverse;
-        }
-        .glitch-title::after {
-            left: -2px; text-shadow: -1px 0 var(--secondary);
-            animation: glitch-anim-2 3s infinite linear alternate-reverse;
+            margin: 0; min-height: 100vh;
+            display: flex; flex-direction: column; align-items: center;
+            background-image: radial-gradient(#1a1a1a 1px, transparent 1px);
+            background-size: 30px 30px;
         }
 
-        .input-zone {
-            display: flex; gap: 15px; margin-top: 40px; flex-wrap: wrap;
+        /* الحاوية */
+        .app-container {
+            width: 95%; max-width: 800px; margin-top: 50px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-top: 4px solid var(--primary);
+            border-radius: 15px;
+            box-shadow: 0 0 50px rgba(0, 240, 255, 0.05);
+            padding: 30px;
+            animation: slideDown 0.6s ease;
         }
+
+        /* الهيدر */
+        .header {
+            text-align: center; margin-bottom: 30px; border-bottom: 1px solid var(--border); padding-bottom: 20px;
+        }
+        .brand { font-size: 2.2em; font-weight: 900; margin: 0; letter-spacing: 1px; font-family: 'Changa', sans-serif; }
+        .brand span { color: var(--primary); }
+        .status { font-family: 'Cairo', sans-serif; color: var(--gray); font-size: 0.9em; margin-top: 5px; }
+
+        /* التحكم */
+        .control-panel {
+            display: flex; gap: 10px; margin-bottom: 30px; flex-wrap: wrap;
+        }
+        
+        .input-wrapper { flex: 1; position: relative; }
         
         input {
-            background: rgba(255,255,255,0.05);
-            border: 1px solid #333;
-            border-bottom: 3px solid var(--secondary);
-            color: white; padding: 15px;
-            font-family: 'Cairo'; font-size: 1.1em;
-            flex-grow: 1; outline: none; transition: 0.3s;
-            text-align: right;
+            width: 100%; background: #000; border: 1px solid var(--border); color: var(--primary);
+            padding: 15px; font-family: 'Changa'; font-size: 1.1em; border-radius: 8px;
+            outline: none; transition: 0.3s; text-align: center;
         }
-        input:focus { background: rgba(188, 19, 254, 0.1); border-color: var(--primary); }
+        input:focus { border-color: var(--primary); box-shadow: 0 0 15px var(--primary-dim); }
 
-        .cyber-btn {
-            background: linear-gradient(45deg, var(--secondary), #8e44ad);
-            color: white; border: none; padding: 10px 30px;
-            font-weight: bold; cursor: pointer;
-            font-family: 'Cairo', sans-serif;
-            font-size: 1em;
-            clip-path: polygon(15px 0, 100% 0, 100% calc(100% - 15px), calc(100% - 15px) 100%, 0 100%, 0 15px);
-            transition: 0.2s;
+        /* الأزرار */
+        .btn {
+            padding: 0 25px; border: none; border-radius: 8px; cursor: pointer;
+            font-family: 'Cairo'; font-weight: bold; font-size: 1em; transition: 0.2s;
+            display: flex; align-items: center; justify-content: center; gap: 8px;
         }
-        .cyber-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 0 20px var(--secondary);
-        }
-        .btn-test {
-            background: linear-gradient(45deg, #ff416c, #ff4b2b);
-            clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
-        }
-
-        .holo-screen {
-            margin-top: 30px;
-            background: rgba(0, 243, 255, 0.05);
-            border: 1px solid var(--primary);
-            padding: 20px;
-            text-align: center;
-            font-family: 'Orbitron', monospace; /* الأرقام والإيميل تبقى إنجليزي لجمال الشكل */
-            font-size: 1.5em; color: var(--primary);
-            position: relative; cursor: pointer;
-            box-shadow: inset 0 0 20px rgba(0, 243, 255, 0.1);
-            direction: ltr; /* الإيميل دائماً من اليسار لليمين */
-        }
-        .holo-screen::after { 
-            content: 'نسخ المعرف'; 
-            font-family: 'Cairo'; font-size: 0.6em; 
-            position: absolute; bottom: 5px; right: 10px; opacity: 0.5; 
-        }
-
-        .inbox-zone { margin-top: 40px; }
-        .inbox-header {
-            display: flex; justify-content: space-between; align-items: center;
-            border-bottom: 2px solid #333; padding-bottom: 10px; margin-bottom: 20px;
-        }
+        .btn-create { background: var(--primary); color: #000; }
+        .btn-create:hover { background: #fff; box-shadow: 0 0 20px var(--primary); }
         
-        .msg-row {
-            background: linear-gradient(270deg, rgba(255,255,255,0.03), transparent);
-            border-right: 4px solid #333; /* تعديل ليتناسب مع العربي */
-            padding: 15px; margin-bottom: 15px;
-            transition: 0.3s; cursor: pointer;
+        .btn-random { background: #222; color: #fff; border: 1px solid #333; font-size: 1.2em; }
+        .btn-random:hover { border-color: var(--primary); color: var(--primary); }
+
+        /* كارت الإيميل */
+        .email-card {
+            background: var(--primary-dim); border: 1px dashed var(--primary);
+            padding: 20px; border-radius: 8px; text-align: center;
+            cursor: pointer; position: relative; overflow: hidden;
+            transition: 0.3s; display: none;
+        }
+        .email-card:hover { background: rgba(0, 240, 255, 0.15); }
+        .current-email { font-family: 'Changa'; font-size: 1.6em; font-weight: bold; word-break: break-all; }
+        .copy-hint { font-size: 0.8em; opacity: 0.7; margin-top: 5px; }
+
+        /* الوارد */
+        .inbox-area { margin-top: 30px; }
+        .inbox-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+        
+        .msg-list { min-height: 200px; }
+        
+        .msg-item {
+            background: #181818; border-right: 4px solid #333; padding: 15px;
+            margin-bottom: 10px; border-radius: 6px; cursor: pointer;
+            transition: 0.2s; animation: fadeIn 0.4s ease;
             display: flex; justify-content: space-between; align-items: center;
         }
-        .msg-row:hover {
-            border-right-color: var(--primary);
-            background: rgba(0, 243, 255, 0.05);
-            padding-left: 25px; 
-        }
+        .msg-item:hover { background: #222; border-right-color: var(--primary); transform: translateX(-5px); }
+        
+        .sender-name { font-weight: bold; display: block; margin-bottom: 4px; color: #fff; }
+        .subject-line { font-size: 0.9em; color: #888; }
+        .time-badge { font-family: 'Cairo'; font-size: 0.8em; color: var(--primary); background: rgba(0,0,0,0.3); padding: 3px 8px; border-radius: 4px; }
 
+        /* نافذة القراءة */
         .modal-overlay {
-            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.9); z-index: 999;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.9); z-index: 1000;
+            display: none; justify-content: center; align-items: center;
             backdrop-filter: blur(5px);
-            justify-content: center; align-items: flex-start;
-            overflow-y: auto; padding-top: 50px;
         }
-        .modal-body {
-            background: var(--card-bg); width: 90%; max-width: 700px;
-            padding: 30px; border: 1px solid var(--secondary);
-            box-shadow: 0 0 50px rgba(188, 19, 254, 0.3);
-            position: relative; text-align: right;
+        .modal-window {
+            background: #151515; width: 90%; max-width: 800px; height: 80vh;
+            border: 1px solid var(--primary); border-radius: 12px;
+            display: flex; flex-direction: column; overflow: hidden;
+            box-shadow: 0 0 50px rgba(0, 0, 0, 0.8);
         }
+        .modal-header {
+            padding: 15px 20px; background: #111; border-bottom: 1px solid #333;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        .close-btn { background: none; border: none; color: #ff3333; font-size: 1.5em; cursor: pointer; }
+        .email-body { flex: 1; padding: 20px; overflow-y: auto; background: #fff; color: #000; direction: ltr; text-align: left; }
 
-        .close-x {
-            position: absolute; top: 10px; left: 15px;
-            color: var(--primary); font-size: 1.5em; cursor: pointer;
-        }
+        .footer { margin-top: auto; padding: 20px; color: #444; font-size: 0.8em; }
 
-        .footer-sig {
-            text-align: center; margin-top: 50px; opacity: 0.6; font-size: 0.9em;
-        }
-        .footer-sig span { color: var(--primary); font-weight: bold; }
+        @keyframes slideDown { from { opacity:0; transform: translateY(-20px); } to { opacity:1; transform: translateY(0); } }
+        @keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
 
-        @keyframes glitch-anim-1 {
-            0% { clip: rect(20px, 9999px, 10px, 0); }
-            100% { clip: rect(70px, 9999px, 20px, 0); }
-        }
-        @keyframes glitch-anim-2 {
-            0% { clip: rect(50px, 9999px, 60px, 0); }
-            100% { clip: rect(60px, 9999px, 50px, 0); }
-        }
     </style>
 </head>
 <body>
 
-    <div class="cyber-container">
-        <div class="glitch-title" data-text="نظام بريد أبو عاصي"> نظام بريد أبو عاصي بيه</div>
-        <p style="text-align: center; color: #888; font-size: 0.9em;">الإصدار 8 || 2026</p>
-
-        <div class="input-zone">
-            <input type="text" id="username" placeholder="اكتب اسم العميل..." maxlength="15">
-            <button class="cyber-btn" onclick="createAccount()">إنشاء</button>
-            <button class="cyber-btn btn-test" onclick="runSystemTest()"> أختبار سريع</button>
+    <div class="app-container">
+        <div class="header">
+            <h1 class="brand">أبو عاصي <span>مصر</span></h1>
+            <div class="status" id="connectionStatus">السيرفر جاهز يا باشا // مستني أوامرك</div>
         </div>
 
-        <div class="holo-screen" id="emailDisplay" onclick="copyEmail()">
-            [ بانتظار البيانات ]
+        <div class="control-panel">
+            <button class="btn btn-random" onclick="randomizeName()" title="اسم عشوائي">🎲</button>
+            <div class="input-wrapper">
+                <input type="text" id="usernameInput" placeholder="عايز الإيميل باسم مين؟" maxlength="20">
+            </div>
+            <button class="btn btn-create" id="createBtn" onclick="createAccount()">
+                <span>شغل المكنة</span>
+                <span id="loader" style="display:none">⏳</span>
+            </button>
         </div>
 
-        <div class="inbox-zone">
+        <div id="emailCard" class="email-card" onclick="copyEmail()">
+            <div class="current-email" id="fullEmailAddress">...</div>
+            <div class="copy-hint">دوس هنا عشان تنسخ الإيميل يا ريس</div>
+        </div>
+
+        <div class="inbox-area">
             <div class="inbox-header">
-                <span style="color:var(--primary); font-weight:bold;">// صندوق الواردات</span>
-                <span id="refreshTimer" style="font-family:'Cairo'; font-size:0.9em; color:#666;">الحالة: متصل</span>
+                <div style="font-weight:bold; color:var(--text)">📨 الرسايل اللي وصلتك</div>
+                <div id="refreshTimer" style="font-size:0.8em; color:var(--gray)">لسه مفيش نت</div>
             </div>
             
-            <div id="msgList">
-                <div style="text-align:center; padding: 40px; color:#444; border: 2px dashed #333;">
-                    مفيش رسايل... الصندوق فاضي
+            <div id="msgList" class="msg-list">
+                <div style="text-align:center; padding: 50px; color: #333; border: 2px dashed #222; border-radius:8px;">
+                    اعمل إيميل الأول عشان نشوف الرزق...
                 </div>
             </div>
         </div>
-
-        <div class="footer-sig">
-            تطوير وبرمجة <span>أبو عاصي بيه</span> © 2026
-        </div>
     </div>
 
+    <div class="footer">تطوير وتظبيط: أبو عاصي بيه © 2026</div>
+
     <div id="readModal" class="modal-overlay">
-        <div class="modal-body">
-            <div class="close-x" onclick="closeModal()">X</div>
-            <h2 id="mSubject" style="color:var(--primary); border-bottom:1px solid #333; padding-bottom:10px;"></h2>
-            <div id="mMeta" style="color:#888; margin-bottom:20px; font-size: 0.9em; direction: ltr; text-align: right;"></div>
-            <div id="mContent" style="color:#ddd; line-height:1.6;"></div>
+        <div class="modal-window">
+            <div class="modal-header">
+                <div id="mSubject" style="color:var(--primary); font-weight:bold;">عنوان الرسالة</div>
+                <button class="close-btn" onclick="closeModal()">✕</button>
+            </div>
+            <div style="padding:10px; background:#222; color:#aaa; font-size:0.9em; border-bottom:1px solid #333;">
+                من طرف: <span id="mSender" style="color:#fff"></span>
+            </div>
+            <div id="mContent" class="email-body"></div>
         </div>
     </div>
 
 <script>
     let token = "";
     let domain = "";
-    let fullEmail = "";
+    let currentEmail = "";
+    let refreshInterval;
 
+    // 1. التحميل
     window.onload = async () => {
         try {
             const res = await fetch('https://api.mail.tm/domains');
             const data = await res.json();
             domain = data['hydra:member'][0].domain;
-            
-            document.getElementById('username').value = "user" + Math.floor(Math.random()*999);
-            createAccount(); 
-        } catch(e) { console.log(e); }
-    }
+            updateStatus("تم الاتصال بالسيرفر يا كبير: " + domain);
+        } catch(e) {
+            updateStatus("النت عندك بعافية شوية!");
+        }
+    };
 
+    // 2. إنشاء الحساب
     async function createAccount() {
-        let user = document.getElementById('username').value.toLowerCase().replace(/[^a-z0-9]/g, "");
-        if(!user) return;
+        let user = document.getElementById('usernameInput').value.trim().toLowerCase();
+        user = user.replace(/[^a-z0-9]/g, "");
+
+        if(!user) {
+            alert("يا عم اكتب اسم الأول أو اختار عشوائي!");
+            return;
+        }
+
+        if(!domain) { alert("اصبر السيرفر بيحمل..."); return; }
+
+        const btn = document.getElementById('createBtn');
+        btn.disabled = true;
+        document.getElementById('loader').style.display = 'inline';
+        updateStatus("بنجهزلك الإيميل... اصبر ثانية");
 
         const email = `${user}@${domain}`;
         const password = "password";
 
-        document.getElementById('emailDisplay').innerText = "اصبر بقا ....";
-        
         try {
             await fetch('https://api.mail.tm/accounts', {
                 method: 'POST',
@@ -260,120 +237,114 @@
             if(res.ok) {
                 const data = await res.json();
                 token = data.token;
-                fullEmail = email;
-                document.getElementById('emailDisplay').innerText = fullEmail;
+                currentEmail = email;
+
+                document.getElementById('emailCard').style.display = 'block';
+                document.getElementById('fullEmailAddress').innerText = currentEmail;
+                updateStatus("الإيميل شغال زي الفل.. مستنيين رسايل");
                 
-                document.getElementById('msgList').innerHTML = `<div style="text-align:center; padding: 20px; color:var(--primary);">ركبت السيرفر .. علي الله حد يعبرك ويبعت لك حاجه بقا</div>`;
+                document.getElementById('msgList').innerHTML = `<div style="text-align:center; padding: 30px; color: var(--primary);">الحساب اتفعل يا هندسة.<br>قاعدين مستنيين أي رسالة تيجي...</div>`;
                 
+                if(refreshInterval) clearInterval(refreshInterval);
                 refreshInbox();
+                refreshInterval = setInterval(refreshInbox, 4000);
+
             } else {
-                document.getElementById('emailDisplay').innerText = "الإسم دا متاخد ي صاحبي";
+                updateStatus("الاسم ده متاخد للأسف");
+                alert("الاسم ده حد خده قبلك يا صاحبي! جرب اسم تاني.");
             }
-        } catch(e) {}
+
+        } catch(e) {
+            console.error(e);
+            updateStatus("حصلت مشكلة في السيستم");
+        }
+
+        btn.disabled = false;
+        document.getElementById('loader').style.display = 'none';
     }
 
+    // 3. التحديث
     async function refreshInbox() {
         if(!token) return;
         
-        document.getElementById('refreshTimer').innerText = "الحالة: شغال اهو اصبر ...";
+        document.getElementById('refreshTimer').innerText = "بحدث أهو...";
         
         try {
             const res = await fetch('https://api.mail.tm/messages', {
                 headers: { 'Authorization': `Bearer ${token}` }
             });
             const data = await res.json();
-            const msgs = data['hydra:member'];
-            
+            const messages = data['hydra:member'];
             const list = document.getElementById('msgList');
-            let currentHTML = "";
 
-            if(msgs.length > 0) {
-                msgs.forEach(msg => {
-                    currentHTML += `
-                    <div class="msg-row" onclick="readMsg('${msg.id}')">
+            if(messages.length > 0) {
+                let html = "";
+                messages.forEach(msg => {
+                    const time = new Date(msg.createdAt).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+                    
+                    html += `
+                    <div class="msg-item" onclick="openMessage('${msg.id}')">
                         <div>
-                            <div style="font-weight:bold; color:white;">${msg.from.address}</div>
-                            <div style="font-size:0.9em; color:#888;">${msg.subject}</div>
+                            <span class="sender-name">${msg.from.address}</span>
+                            <span class="subject-line">${msg.subject}</span>
                         </div>
-                        <div style="font-family:'Cairo'; font-size:0.8em; color:var(--secondary);">عرض الرسالة ></div>
+                        <div class="time-badge">${time}</div>
                     </div>`;
                 });
-                
-                if(!list.innerHTML.includes('فحص النظام')) {
-                    list.innerHTML = currentHTML;
-                } else {
-                    if(currentHTML !== "") list.innerHTML = currentHTML;
-                }
+                list.innerHTML = html;
+                updateStatus(`وصلتك ${messages.length} رسالة يا وحش`);
             }
-        } catch(e) {}
-        
-        document.getElementById('refreshTimer').innerText = "الحالة : كلو فل الفل";
-    }
-
-    async function readMsg(id) {
-        document.getElementById('readModal').style.display = 'flex';
-        document.getElementById('mContent').innerText = "جاري تحميل حزمة البيانات...";
-        
-        const res = await fetch(`https://api.mail.tm/messages/${id}`, {
-            headers: { 'Authorization': `Bearer ${token}` }
-        });
-        const data = await res.json();
-        
-        document.getElementById('mSubject').innerText = data.subject;
-        document.getElementById('mMeta').innerText = `المُرسل: ${data.from.address} | الوقت: ${new Date(data.createdAt).toLocaleTimeString()}`;
-        document.getElementById('mContent').innerHTML = data.html || data.text;
-    }
-
-    function runSystemTest() {
-        const list = document.getElementById('msgList');
-        
-        const fakeDiv = document.createElement('div');
-        fakeDiv.className = 'msg-row';
-        fakeDiv.style.borderRightColor = '#ff416c'; 
-        fakeDiv.onclick = () => showTestDetails();
-        fakeDiv.innerHTML = `
-            <div>
-                <div style="font-weight:bold; color:#ff416c;">[ اختبار النظام ]</div>
-                <div style="font-size:0.9em; color:#fff;">التحقق من بروتوكول أبو عاصي...</div>
-            </div>
-            <div style="font-family:'Cairo'; color:#ff416c;">تم التحقق ></div>
-        `;
-        
-        if(list.innerText.includes('الدنيا باظت يصاحبي حاول تاني بقا') || list.innerText.includes('انتظار')) {
-            list.innerHTML = '';
+        } catch(e) {
+            console.log("Sync error");
         }
-        
-        list.prepend(fakeDiv);
-        alert("نجحت يصاحبي ثواني وابقا جاهز");
+        document.getElementById('refreshTimer').innerText = "شغال";
     }
 
-    function showTestDetails() {
+    // 4. قراءة الرسالة
+    async function openMessage(id) {
         document.getElementById('readModal').style.display = 'flex';
-        document.getElementById('mSubject').innerText = "نجاح عملية التحقق";
-        document.getElementById('mMeta').innerText = "المصدر: السيرفر المحلي // المسؤول: أبو عاصي";
-        document.getElementById('mContent').innerHTML = `
-            <div style="text-align:center; border: 2px solid var(--primary); padding: 20px; border-radius: 10px;">
-                <h1 style="color:var(--secondary); font-family: 'Cairo'">تم منح الصلاحية</h1>
-                <p>أهلاً بك ي مملة الشرق .</p>
-                <p>أبو عاصي بيمسي عليك ><</p>
-                <hr style="border-color:#333">
-                <p>نظام البريد يعمل بكفاءة 100%.</p>
-                <br>
-                <h3>تصميم وتطوير:</h3>
-                <h2 style="color:var(--primary);">أبو عاصي بيه 👑</h2>
-            </div>
-        `;
+        document.getElementById('mContent').innerHTML = "<div style='padding:20px; text-align:center;'>بنحمل الرسالة والصور...</div>";
+        
+        try {
+            const res = await fetch(`https://api.mail.tm/messages/${id}`, {
+                headers: { 'Authorization': `Bearer ${token}` }
+            });
+            const data = await res.json();
+
+            document.getElementById('mSubject').innerText = data.subject;
+            document.getElementById('mSender').innerText = `${data.from.name || ''} <${data.from.address}>`;
+            document.getElementById('mContent').innerHTML = data.html || `<pre>${data.text}</pre>`;
+
+        } catch(e) {
+            document.getElementById('mContent').innerText = "معلش.. الرسالة مش راضية تفتح.";
+        }
     }
 
-    function closeModal() { document.getElementById('readModal').style.display = 'none'; }
-    function copyEmail() { 
-        if(fullEmail) { 
-            navigator.clipboard.writeText(fullEmail); 
-            alert("كدا تم النسخ ي مملكه"); 
-        } 
+    // 5. أدوات
+    function randomizeName() {
+        const chars = "abcdefghijklmnopqrstuvwxyz";
+        let random = "";
+        for(let i=0; i<8; i++) random += chars[Math.floor(Math.random() * chars.length)];
+        document.getElementById('usernameInput').value = random;
     }
 
-    setInterval(refreshInbox, 5000);
+    function copyEmail() {
+        if(currentEmail) {
+            navigator.clipboard.writeText(currentEmail);
+            updateStatus("تم النسخ يا هندسة!");
+            const card = document.getElementById('emailCard');
+            card.style.borderColor = "#fff";
+            setTimeout(() => card.style.borderColor = "var(--primary)", 200);
+        }
+    }
+
+    function closeModal() {
+        document.getElementById('readModal').style.display = 'none';
+    }
+
+    function updateStatus(msg) {
+        document.getElementById('connectionStatus').innerText = msg;
+    }
 
 </script>
 
